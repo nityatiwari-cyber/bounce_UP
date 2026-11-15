@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://dd6otvaolcr4u"]
+
+[ext_resource type="PackedScene" uid="uid://crie77t27ot4s" path="res://scenes/sprite_2d.tscn" id="1_dn4c7"]
+[ext_resource type="Texture2D" uid="uid://u0or2ug0owmk" path="res://pig-removebg-preview.png" id="1_g2brh"]
+
+[sub_resource type="GDScript" id="GDScript_frxy2"]
+script/source = "extends CharacterBody2D
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+@onready var animated_sprite_2d: AnimatedSprite2D = $Sprite2D
+
+var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\")
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor():
+		velocity.y += gravity * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed(\"move_up\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	var direction := Input.get_axis(\"move_left\", \"move_right\")
+	if direction:
+		velocity.x = direction * SPEED
+		animated_sprite_2d.flip_h = direction < 0
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	# Play animations
+	if abs(velocity.x) > 1.0:
+		animated_sprite_2d.play(\"walking\")
+	else:
+		animated_sprite_2d.play(\"default\")
+
+	move_and_slide()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ws0vm"]
+atlas = ExtResource("1_g2brh")
+region = Rect2(0, 0, 146, 117)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhr3r"]
+atlas = ExtResource("1_g2brh")
+region = Rect2(146, 0, 146, 117)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t53lx"]
+atlas = ExtResource("1_g2brh")
+region = Rect2(292, 0, 146, 117)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yi2kj"]
+atlas = ExtResource("1_g2brh")
+region = Rect2(438, 0, 146, 117)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cibgq"]
+atlas = ExtResource("1_g2brh")
+region = Rect2(584, 0, 146, 117)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfdas"]
+atlas = ExtResource("1_g2brh")
+region = Rect2(730, 0, 146, 117)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ptj75"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ws0vm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhr3r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t53lx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yi2kj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cibgq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfdas")
+}],
+"loop": 1,
+"name": &"jumping",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t5c5i"]
+size = Vector2(20271.75, 15370.4375)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=2086618562]
+script = SubResource("GDScript_frxy2")
+
+[node name="Sprite2D" parent="." unique_id=1225194526 instance=ExtResource("1_dn4c7")]
+position = Vector2(-1900.8096, -192.10254)
+scale = Vector2(155.57796, 212.01884)
+sprite_frames = SubResource("SpriteFrames_ptj75")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=901017143]
+position = Vector2(-2859, 5760)
+shape = SubResource("RectangleShape2D_t5c5i")

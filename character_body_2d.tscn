@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cy5jo2maurma"]
+
+[ext_resource type="Texture2D" uid="uid://crllo1waia4cn" path="res://Screenshot_2026-11-14_121657-removebg-preview.png" id="1_f50pn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t5c5i"]
+size = Vector2(93, 56)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=2072930604]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=246586304]
+position = Vector2(-1, -1)
+scale = Vector2(0.21747968, 0.20617284)
+texture = ExtResource("1_f50pn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=302814201]
+position = Vector2(5.5, -1)
+shape = SubResource("RectangleShape2D_t5c5i")
